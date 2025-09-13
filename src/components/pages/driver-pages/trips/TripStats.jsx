@@ -32,13 +32,19 @@ const TripStats = () => {
     fetchStats();
   }, []);
 
+  // ✅ Format numbers with commas (Indian style)
+  const formatNumber = (num) => {
+    if (typeof num !== "number") return num;
+    return num.toLocaleString("en-IN");
+  };
+
   const DashboardCards = [
-    { title: "Total Trips", value: stats.totalTrips, bg: "bg-gradient-to-r from-indigo-500 to-purple-500" },
-    { title: "Total Trip Amount", value: `₹${stats.totalTripAmount}`, bg: "bg-gradient-to-r from-green-400 to-green-600" },
-    { title: "Total Expenses", value: `₹${stats.totalExpenses}`, bg: "bg-gradient-to-r from-yellow-400 to-yellow-600" },
+    { title: "Total Trips", value: formatNumber(stats.totalTrips), bg: "bg-gradient-to-r from-indigo-500 to-purple-500" },
+    { title: "Total Trip Amount", value: `₹${formatNumber(stats.totalTripAmount)}`, bg: "bg-gradient-to-r from-green-400 to-green-600" },
+    { title: "Total Expenses", value: `₹${formatNumber(stats.totalExpenses)}`, bg: "bg-gradient-to-r from-yellow-400 to-yellow-600" },
     { 
       title: "Profit", 
-      value: `${stats.totalProfit >= 0 ? "+" : "-"}₹${Math.abs(stats.totalProfit)}`, 
+      value: `₹${formatNumber(stats.totalProfit)}`, 
       bg: stats.totalProfit >= 0 
         ? "bg-gradient-to-r from-green-400 to-green-600" 
         : "bg-gradient-to-r from-red-400 to-red-600" 
