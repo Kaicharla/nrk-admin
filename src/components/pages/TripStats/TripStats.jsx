@@ -33,25 +33,32 @@ const TripStats = () => {
     fetchStats();
   }, []);
 
+  // ✅ format numbers with commas
+  const formatNumber = (num) => {
+    if (typeof num !== "number") return num;
+    return num.toLocaleString("en-IN");
+  };
+
   const DashboardCards = [
-    { title: "Total Trips", value: stats.totalTrips, bg: "bg-gradient-to-r from-indigo-500 to-purple-500" },
-    { title: "Total Trip Amount", value: `₹${stats.totalTripAmount}`, bg: "bg-gradient-to-r from-green-400 to-green-600" },
-    { title: "Total Expenses", value: `₹${stats.totalExpenses}`, bg: "bg-gradient-to-r from-yellow-400 to-yellow-600" },
+    { title: "Total Trips", value: formatNumber(stats.totalTrips), bg: "bg-gradient-to-r from-indigo-500 to-purple-500" },
+    { title: "Total Trip Amount", value: `₹${formatNumber(stats.totalTripAmount)}`, bg: "bg-gradient-to-r from-green-400 to-green-600" },
+    { title: "Total Expenses", value: `₹${formatNumber(stats.totalExpenses)}`, bg: "bg-gradient-to-r from-yellow-400 to-yellow-600" },
     { 
       title: "Profit", 
-      value: `${stats.totalProfit >= 0 ? "+" : "-"}₹${Math.abs(stats.totalProfit)}`, 
+      value: `₹${formatNumber(stats.totalProfit)}`, 
       bg: stats.totalProfit >= 0 
         ? "bg-gradient-to-r from-green-400 to-green-600" 
         : "bg-gradient-to-r from-red-400 to-red-600" 
     },
   ];
+  
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 w-full">
       {loading ? (
-       <div className="col-span-full">
-       <LoadingSpinner text="Loading stats..." />
-     </div>
+        <div className="col-span-full">
+          <LoadingSpinner text="Loading stats..." />
+        </div>
       ) : (
         DashboardCards.map((card, index) => (
           <div
